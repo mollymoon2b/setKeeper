@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bonjour</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+    <body ng-app="myApp" class="container">
+        <center ng-controller="infoCtrl">
+            <h2> Le grand Luke SkyWalker</h2>
+            <div ng-repeat="nameFilm in nameFilms">
+                <p>Title : {{nameFilm.title}}</p>
+            </div>
+        </center>
+    </body>
+    <script>
+    var app = angular.module('myApp', []);
+
+    app.controller('infoCtrl', function($scope, $http) {
+        var films = [];
+        $scope.nameFilms = [];
+        var j = 0;
+        var i = 0;
+
+        function getFilmName(films) {
+            var index = 0;
+            var i = 0;
+            while (index < films.length) {
+                $http({
+                    method: 'GET',
+                    url: films[index]
+                }).then(function successCallback(res) {
+                    $scope.nameFilms[i] = res.data;
+                    i++;
+                }, function errorCallback(res) {
+                    console.log(res);
+                });
+                index++;
+            }
+        };
+
+        $http({
+            method: 'GET',
+            url: 'http://swapi.co/api/people/1/?format=json'
+        }).then(function successCallback(res) {
+            while (i < res.data.films.length) {
+                films[j] = res.data.films[i];
+                j++;
+                i++;
+            };
+            getFilmName(films);
+        }, function errorCallback(res) {
+            console.log(res);
+        });
+    });
+    </script>
+
+</html>
