@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Bonjour</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <script src="http://listjs.com/no-cdn/list.js"></script>
+    <body>
+        <div id="users">
+            <div class="searchBar">
+                <input class="search" placeholder="Search" />
+            </div>
+            <ul class="list"></ul>
+        </div>
+    </body>
+    <script>
+    var options = {
+        valueNames: ['name', 'num'],
+        item: '<li class="listResult"><h3 class="name" ></h3><p class="num" style="display:none"></p></li>'
+    };
+
+    var values = [{
+        name: 'Jean',
+        num: 0
+    }, {
+        name: 'Pierre',
+        num: 0
+    }, {
+        name: 'Marc',
+        num: 0
+    },{
+        name: 'Alice',
+        num: 0
+    }, {
+        name: 'Marc',
+        num: 0
+    }, {
+        name: 'Pierre',
+        num: 0
+    },{
+        name: 'Pierre',
+        num: 0
+    }];
+
+    var i = 0;
+    var j = 0;
+    var k = 0;
+    var results = [];
+    while (values[i] != undefined) {
+        j = i + 1;
+        while (values[j] != undefined) {
+            if (values[i].name == values[j].name) {
+                values[i].num += 1;
+                delete values[j];
+            }
+            j++;
+        }
+        results[i] = values[i];
+        i++;
+    }
+
+    var userList = new List('users', options, results);
+
+    var elems = document.getElementsByClassName("name");
+    var elems2 = document.getElementsByClassName("num");
+
+    for (i = 0; elems.length > i; i++) {
+        if (elems2[i].textContent == '0')
+            elems[i].style.backgroundColor = '#C1E3FC';
+        else if (elems2[i].textContent == '1')
+            elems[i].style.backgroundColor = '#4BB4ED';
+        else
+            elems[i].style.backgroundColor = '#0076C6';
+    }
+    </script>
+
+    </html>
